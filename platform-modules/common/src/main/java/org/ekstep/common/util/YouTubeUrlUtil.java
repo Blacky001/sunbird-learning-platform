@@ -152,6 +152,8 @@ public class YouTubeUrlUtil {
 			TelemetryManager
 					.error("Error Occured While Calling Youtube API. Error Details : " ,e);
 	System.out.println("YOUTUBE LIST EXCEPTION");
+System.out.println(e);
+e.printStackTrace();
 			throw new ServerException(TaxonomyErrorCodes.SYSTEM_ERROR.name(),
 					"Something Went Wrong While Processing Youtube Video. Please Try Again After Sometime!");
 		}

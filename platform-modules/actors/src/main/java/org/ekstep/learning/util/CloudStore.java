@@ -27,12 +27,16 @@ private static String cloudStoreType = Platform.config.getString("cloud_storage_
 
 		if(StringUtils.equalsIgnoreCase(cloudStoreType, "azure")) {
 			String storageKey = Platform.config.getString("azure_storage_key");
+System.out.println("Azure storage key"+storageKey);
 			String storageSecret = Platform.config.getString("azure_storage_secret");
+System.out.println("Azure storage key"+storageSecret);
 			storageService = StorageServiceFactory.getStorageService(new StorageConfig(cloudStoreType, storageKey, storageSecret));
 		}else if(StringUtils.equalsIgnoreCase(cloudStoreType, "aws")) {
 			String storageKey = Platform.config.getString("aws_storage_key");
 			String storageSecret = Platform.config.getString("aws_storage_secret");
+System.out.println("BEFORE CALLING StorageServiceFactory.getStorageService");
 			storageService = StorageServiceFactory.getStorageService(new StorageConfig(cloudStoreType, storageKey, storageSecret));
+System.out.println("StorageServiceFactory.getStorageService HAS BEEN SUCCESSFULLY CALLED!");
 		}else {
 			throw new ServerException("ERR_INVALID_CLOUD_STORAGE", "Error while initialising cloud storage");
 		}
@@ -59,6 +63,7 @@ private static String cloudStoreType = Platform.config.getString("cloud_storage_
 		String container = getContainerName();
 		String url = storageService.upload(container, file.getAbsolutePath(), objectKey, Option.apply(false), Option
 				.apply(1), Option.apply(5), Option.empty());
+ystem.out.println("objectKey: "+objectKey+", container: "+container+", url: "+url);
 		return new String[] { objectKey, url};
 	}
 
