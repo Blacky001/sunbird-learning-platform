@@ -45,7 +45,7 @@ public class UploadUrlOperation extends BaseUploadOperation {
 
             Response res = mimeTypeManager.upload(contentId, node, fileUrl);
 	System.out.println("=====================YOOOOHOOOO4======================");
-        System.out.println("res: "+res+");
+        System.out.println("res: "+res);
         System.out.println("=====================YOOOOHOOOO4======================");
 
             Response response = validateResponseAndUpdateMimeType(updateMimeType, node, res, contentId, mimeType);
