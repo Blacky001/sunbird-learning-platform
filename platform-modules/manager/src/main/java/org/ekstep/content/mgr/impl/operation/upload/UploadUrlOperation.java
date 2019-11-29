@@ -30,23 +30,49 @@ public class UploadUrlOperation extends BaseUploadOperation {
                 setMimeTypeForUpload(mimeType, node);
                 updateMimeType = true;
             }
-
+	System.out.println("=====================YOOOOHOOOO1======================");
+	System.out.println("mimeType: "+mimeType+", fileUrl: "+fileUrl);
+	System.out.println("=====================YOOOOHOOOO1======================");
+        //System.Out.Println("mimeType: "+mimeType+", fileUrl: "+fileUrl);
             validateUrlLicense(mimeType, fileUrl, node);
+	System.out.println("=====================YOOOOHOOOO2======================");
 
             TelemetryManager.log("Mime-Type: " + mimeType + " | [Content ID: " + contentId + "]");
             IMimeTypeManager mimeTypeManager = getMimeTypeManger(contentId, mimeType, node);
+	System.out.println("=====================YOOOOHOOOO3======================");
+        System.out.println("contentId: "+contentId);
+        System.out.println("=====================YOOOOHOOOO3======================");
 
             Response res = mimeTypeManager.upload(contentId, node, fileUrl);
+	System.out.println("=====================YOOOOHOOOO4======================");
+        System.out.println("res: "+res+");
+        System.out.println("=====================YOOOOHOOOO4======================");
 
             Response response = validateResponseAndUpdateMimeType(updateMimeType, node, res, contentId, mimeType);
+	System.out.println("=====================YOOOOHOOOO5======================");
+        System.out.println("response: "+response);
+        System.out.println("=====================YOOOOHOOOO5======================");
             if (null != response && checkError(response)) { return response; }
 
             return checkAndReturnUploadResponse(res);
         } catch (ClientException e) {
-            throw e;
+            //throw e;
+	System.out.println("=====================YOOOOHOOOO6======================");
+        System.out.println("Exception1: ");
+	e.printStackTrace();
+        System.out.println("=====================YOOOOHOOOO6======================");
+	throw e;
         } catch (ServerException e) {
+	System.out.println("=====================YOOOOHOOOO7======================");
+        System.out.println("Exception2: ");
+        e.printStackTrace();
+        System.out.println("=====================YOOOOHOOOO7======================");
             return ERROR(e.getErrCode(), e.getMessage(), ResponseCode.SERVER_ERROR);
         } catch (Exception e) {
+	System.out.println("=====================YOOOOHOOOO8======================");
+        System.out.println("Exception3: ");
+        e.printStackTrace();
+        System.out.println("=====================YOOOOHOOOO8======================");
             String message = "Something went wrong while processing uploaded file.";
             TelemetryManager.error(message, e);
             return ERROR(TaxonomyErrorCodes.SYSTEM_ERROR.name(), message, ResponseCode.SERVER_ERROR);

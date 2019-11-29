@@ -74,6 +74,7 @@ public class YouTubeUrlUtil {
 		String videoId = getIdFromUrl(videoUrl);
 		if (StringUtils.isBlank(videoId))
 			throw new ClientException(TaxonomyErrorCodes.ERR_INVALID_URL.name(), ERR_MSG);
+	System.out.println("Getting license Type Function Start videoId: "+videoId);
 
 		String licenceType = "";
 		List<Video> videoList = getVideoList(videoId, "status");
@@ -85,12 +86,13 @@ public class YouTubeUrlUtil {
 			licenceType = video.getStatus().getLicense().toString();
 		}
 
+	System.out.println("Getting license Type Function before: "+licenceType);
 		if (StringUtils.isBlank(licenceType) && !limitExceeded)
 			throw new ClientException(TaxonomyErrorCodes.ERR_YOUTUBE_LICENSE_VALIDATION.name(), ERR_MSG);
 
 		if (StringUtils.isBlank(licenceType) && limitExceeded)
 			throw new ClientException(TaxonomyErrorCodes.ERR_YOUTUBE_LICENSE_VALIDATION.name(), SERVICE_ERROR);
-
+	System.out.println("Getting license Type Function after: "+licenceType);
 		return licenceType;
 	}
 
@@ -133,6 +135,7 @@ public class YouTubeUrlUtil {
 		try {
 			YouTube.Videos.List videosListByIdRequest = youtube.videos().list(params);
 			String apiKey = Platform.config.getString("learning_content_youtube_apikey");
+	System.out.println("apiKey is: "+apiKey+" and VIDEO ID IS: "+videoId);
 			videosListByIdRequest.setKey(apiKey);
 			videosListByIdRequest.setId(videoId);
 			VideoListResponse response = videosListByIdRequest.execute();
@@ -148,6 +151,7 @@ public class YouTubeUrlUtil {
 		} catch (Exception e) {
 			TelemetryManager
 					.error("Error Occured While Calling Youtube API. Error Details : " ,e);
+	System.out.println("YOUTUBE LIST EXCEPTION");
 			throw new ServerException(TaxonomyErrorCodes.SYSTEM_ERROR.name(),
 					"Something Went Wrong While Processing Youtube Video. Please Try Again After Sometime!");
 		}
@@ -162,10 +166,13 @@ public class YouTubeUrlUtil {
 	 * @return
 	 */
 	public static Map<String, Object> getVideoInfo(String videoUrl, String apiParams, String... metadata) {
+System.out.println("VIDEO URL: "+videoUrl+", API PARAMs: "+apiParams+", metadata"+metadata);
 		Video video = null;
 		Map<String, Object> result = new HashMap<String, Object>();
 		String videoId = getIdFromUrl(videoUrl);
+System.out.println("VIDEO ID: "+videoId);
 		List<Video> videoList = getVideoList(videoId, apiParams);
+System.out.println("VIDEO LIST: "+videoList);
 		if (null != videoList && !videoList.isEmpty()) {
 			video = videoList.get(0);
 		}
@@ -173,6 +180,7 @@ public class YouTubeUrlUtil {
 			for (String str : metadata) {
 				if ("license".equalsIgnoreCase(str)) {
 					String license = video.getStatus().getLicense().toString();
+System.out.println("VIDEO LICENSE: "+license);
 					if (StringUtils.isNotBlank(license))
 						result.put(str, license);
 				}
@@ -185,6 +193,7 @@ public class YouTubeUrlUtil {
 
 				if ("duration".equalsIgnoreCase(str)) {
 					String duration = computeVideoDuration(video.getContentDetails().getDuration());
+System.out.println("DURATION: "+duration);
 					if (StringUtils.isNotBlank(duration))
 						result.put(str, duration);
 				}
