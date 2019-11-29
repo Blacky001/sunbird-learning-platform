@@ -63,7 +63,7 @@ System.out.println("StorageServiceFactory.getStorageService HAS BEEN SUCCESSFULL
 		String container = getContainerName();
 		String url = storageService.upload(container, file.getAbsolutePath(), objectKey, Option.apply(false), Option
 				.apply(1), Option.apply(5), Option.empty());
-ystem.out.println("objectKey: "+objectKey+", container: "+container+", url: "+url);
+System.out.println("objectKey: "+objectKey+", container: "+container+", url: "+url);
 		return new String[] { objectKey, url};
 	}
 
