@@ -202,17 +202,24 @@ public class PublishPipelineService implements ISamzaService {
 	}
 
 	private void publishNode(Node node, String mimeType) {
+System.out.println("======INSIDE PUBLISHPIPELINESERVICE PUBLISHNODE() DEFINITION");
+//System.out.println("======INSIDE PUBLISHPIPELINESERVICE PUBLISHNODE() DEFINITION");
 		if (null == node)
 			throw new ClientException(ContentErrorCodeConstants.INVALID_CONTENT.name(),
 					ContentErrorMessageConstants.INVALID_CONTENT
 							+ " | ['null' or Invalid Content Node (Object). Async Publish Operation Failed.]");
 		String nodeId = node.getIdentifier().replace(".img", "");
+//System.out.println("nodeId: "+nodeId);
+//LOGGER.debug("nodeId: "+ nodeId);
 		LOGGER.info("Publish processing start for node: " + nodeId);
 		String basePath = PublishManager.getBasePath(nodeId, this.config.get("lp.tempfile.location"));
 		LOGGER.info("Base path to store files: " + basePath);
 		try {
+System.out.println("NodeId: "+nodeId+", mimeType: "+mimeType);
 			setContentBody(node, mimeType);
 			LOGGER.debug("Fetched body from cassandra");
+System.out.println("Fetched Body From Cassandra");
+//System.out.println("NodeId: "+nodeId+", mimeType: "+mimeType);
 			parameterMap.put(PublishPipelineParams.node.name(), node);
 			parameterMap.put(PublishPipelineParams.ecmlType.name(), PublishManager.isECMLContent(mimeType));
 			LOGGER.info("Initializing the publish pipeline for: " + node.getIdentifier());

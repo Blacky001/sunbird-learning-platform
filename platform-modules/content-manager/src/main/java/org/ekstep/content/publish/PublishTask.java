@@ -40,7 +40,9 @@ public class PublishTask implements Runnable {
 
 	private void publishContent(Node node) throws Exception{
 		TelemetryManager.info("Publish processing start for content" + node.getIdentifier());
+System.out.println("=======BEFORE CALLING PUBLISHNODE()=========");
 		publishNode(node, (String) node.getMetadata().get("mimeType"));
+System.out.println("=======AFTER CALLING PUBLISHNODE()=========");
 		TelemetryManager.info("Publish processing done for content: "+ node.getIdentifier());
 	}
 	
@@ -54,18 +56,24 @@ public class PublishTask implements Runnable {
 		String nodeId = node.getIdentifier().replace(".img", "");
 		TelemetryManager.info("Publish processing start for node: "+ nodeId);
 		try {
+System.out.println("=======PUBLISHNODE() DEFINITION CALLING=========");
 			setContentBody(node, mimeType);
 			this.parameterMap.put(ContentWorkflowPipelineParams.node.name(), node);
 			this.parameterMap.put(ContentWorkflowPipelineParams.ecmlType.name(), PublishManager.isECMLContent(mimeType));
+System.out.println("nodeId: "+nodeId+", mimeType: "+mimeType);
 			InitializePipeline pipeline = new InitializePipeline(PublishManager.getBasePath(nodeId, null), nodeId);
 			pipeline.init(ContentWorkflowPipelineParams.publish.name(), this.parameterMap);
+System.out.println("=======PUBLISHNODE() DEFINITION CALLING END=========");
 		} catch (Exception e) {
 			TelemetryManager.error("Something Went Wrong While Performing 'Content Publish' Operation in Async Mode. | [Content Id: " + nodeId
 					+ "]", e);
 			node.getMetadata().put(ContentWorkflowPipelineParams.publishError.name(), e.getMessage());
 			node.getMetadata().put(ContentWorkflowPipelineParams.status.name(), ContentWorkflowPipelineParams.Failed.name());
 			util.updateNode(node);
+System.out.println("=======PUBLISHNODE() EXCEPTION==============");
+e.printStackTrace();
 			hierarchyStore.deleteHierarchy(Arrays.asList(node.getIdentifier()));
+System.out.println("=======PUBLISHNODE() EXCEPTION END==============");
 		}
 	}
 
