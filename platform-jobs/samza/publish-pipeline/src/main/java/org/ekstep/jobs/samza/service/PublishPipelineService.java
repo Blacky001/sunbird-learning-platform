@@ -217,6 +217,7 @@ System.out.println("======INSIDE PUBLISHPIPELINESERVICE PUBLISHNODE() DEFINITION
 		try {
 System.out.println("NodeId: "+nodeId+", mimeType: "+mimeType);
 			setContentBody(node, mimeType);
+System.out.println("BODY IS: "+node.getMetadata.get("body"));
 			LOGGER.debug("Fetched body from cassandra");
 System.out.println("Fetched Body From Cassandra");
 //System.out.println("NodeId: "+nodeId+", mimeType: "+mimeType);
