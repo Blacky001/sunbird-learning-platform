@@ -249,7 +249,7 @@ System.out.println("Fetched Body From Cassandra");
 	private void setContentBody(Node node, String mimeType) {
 System.out.println("BEFORE ECML CHECK");
 		if (PublishManager.isECMLContent(mimeType)) {
-System.out.println("CONTENT IS ECML);
+System.out.println("CONTENT IS ECML");
 //System.out.println("BODY IS: "+node.getMetadata.get("body"));
 			node.getMetadata().put(PublishPipelineParams.body.name(),
 					PublishManager.getContentBody(node.getIdentifier()));
