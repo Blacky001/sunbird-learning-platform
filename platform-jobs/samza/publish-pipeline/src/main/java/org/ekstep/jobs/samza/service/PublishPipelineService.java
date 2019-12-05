@@ -253,7 +253,7 @@ System.out.println("CONTENT IS ECML");
 //System.out.println("BODY IS: "+node.getMetadata.get("body"));
 			node.getMetadata().put(PublishPipelineParams.body.name(),
 					PublishManager.getContentBody(node.getIdentifier()));
-System.out.println("BODY IS: "+node.getMetadata.get("body"));
+System.out.println("BODY IS: "+node.getMetadata().get("body"));
 		}
 	}
 
