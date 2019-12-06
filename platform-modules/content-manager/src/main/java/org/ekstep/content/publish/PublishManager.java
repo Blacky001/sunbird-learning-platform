@@ -132,8 +132,9 @@ System.out.println("INSIDE IF OF TRY...");
 				TelemetryManager.log("Response Params: " + response.getParams() + " | Code: " + response.getResponseCode() + " | Result: "
 						+ response.getResult().keySet());
 System.out.println("Response Params: " + response.getParams() + " | Code: " + response.getResponseCode() + " | Result: "+ response.getResult().keySet());
-				return response;
 System.out.println("MAKELEARNINGREQUEST RESPONSE FROM TRY...IF: "+response);
+				return response;
+//System.out.println("MAKELEARNINGREQUEST RESPONSE FROM TRY...IF: "+response);
 			}
 		} catch (Exception e) {
 System.out.println("=========EXCEPTION HAPPENED IN MAKELEARNINGREQUEST========");
