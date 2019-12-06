@@ -102,7 +102,9 @@ public class PublishManager extends BaseManager {
 		request.setManagerName(LearningActorNames.CONTENT_STORE_ACTOR.name());
 		request.setOperation(ContentStoreOperations.getContentBody.name());
 		request.put(ContentStoreParams.content_id.name(), contentId);
+System.out.println("ACTOR NAME: "+LearningActorNames.CONTENT_STORE_ACTOR.name()+"\n"+"CONTENT BODY NAME: "+ContentStoreOperations.getContentBody.name()+"\n"+"CONTENT-ID: "+contentId+"\nCONTENTSTOREPARAM IS: "+request.get(ContentStoreParams.content_id.name()));
 		Response response = makeLearningRequest(request);
+System.out.println("==========BEFORE CALLING MAKELEARNINGREQUEST========");
 		return (String) response.get(ContentStoreParams.body.name());
 	}
 
@@ -114,22 +116,34 @@ public class PublishManager extends BaseManager {
 	 * @return the LearningActor response
 	 */
 	private static Response makeLearningRequest(Request request) {
+System.out.println("=========INSIDE MAKELEARNINGREQUEST=========");
 		Response response = new Response();
 		ActorRef router = LearningRequestRouterPool.getRequestRouter();
+System.out.println("ROUTER IS: "+router);
 		try {
+System.out.println("INSIDE TRY...");
 			Future<Object> future = Patterns.ask(router, request, RequestRouterPool.REQ_TIMEOUT);
+System.out.println("REQUEST TIMEOUT TIME: "+RequestRouterPool.REQ_TIMEOUT);
 			Object obj = Await.result(future, RequestRouterPool.WAIT_TIMEOUT.duration());
+System.out.println("WAIT TIMEOUT TIME: "+RequestRouterPool.WAIT_TIMEOUT.duration());
 			if (obj instanceof Response) {
+System.out.println("INSIDE IF OF TRY...");
 				response = (Response) obj;
 				TelemetryManager.log("Response Params: " + response.getParams() + " | Code: " + response.getResponseCode() + " | Result: "
 						+ response.getResult().keySet());
+System.out.println("Response Params: " + response.getParams() + " | Code: " + response.getResponseCode() + " | Result: "+ response.getResult().keySet());
 				return response;
+System.out.println("MAKELEARNINGREQUEST RESPONSE FROM TRY...IF: "+response);
 			}
 		} catch (Exception e) {
+System.out.println("=========EXCEPTION HAPPENED IN MAKELEARNINGREQUEST========");
+e.printStackTrace();
 			TelemetryManager.error("Error! Something went wrong:"+ e.getMessage(), e);
 			throw new ServerException(TaxonomyErrorCodes.SYSTEM_ERROR.name(), " System Error", e);
 		}
+System.out.println("MAKELEARNINGREQUEST RESPONSE FROM END: "+response);
 		return response;
+//System.out.println();
 	}
 
 }
